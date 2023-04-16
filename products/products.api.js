@@ -36,11 +36,11 @@ router.post("/", async function(req,res){
         res.send("Product created successfully")
     }
     catch(error){
-        res.status(400).send(error)
+        console.error(error) // log the error to the console
+        res.status(500).send("Internal Server Error") // send a 500 error response
     }
-
-
 })
+
 
 router.put("/:id", async function(req,res){
     try{
