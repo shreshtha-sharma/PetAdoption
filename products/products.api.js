@@ -4,7 +4,7 @@ router.get("/", async function(req,res){
     //get request without id is for listing all books
 
     try {
-
+        console.log("before service call")
         let list = await service.list()
         res.send(list)
 

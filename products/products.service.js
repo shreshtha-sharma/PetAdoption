@@ -1,4 +1,4 @@
-const Book = require("./product");
+const Products = require("./product");
 
 module.exports.list = async function list(){
     return await Product.find()
