@@ -5,12 +5,21 @@ const mongoose = require('mongoose');
 const userApi = require('./User/User.api');
 const Product = require('./products/products');
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.6:8080');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
+
+
 // Use body parser to parse incoming requests
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/miniproject_petAdoption').then(() => {
-  console.log('Connected to DB');
+mongoose.connect('mongodb+srv://user1:root@cluster0.oldheqr.mongodb.net/miniproject_petAdoption').then(() => {
+  console.log('Connected to DB');
 });
 
 // Mount the userApi router
