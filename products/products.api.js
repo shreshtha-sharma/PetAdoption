@@ -1,5 +1,6 @@
 const router = require('express').Router()
 
+
 router.get("/", async function(req,res){
     //get request without id is for listing all books
 
@@ -17,16 +18,6 @@ router.get("/", async function(req,res){
 
 })
 
-router.get("/:id", async function(req,res){
-    try{
-        let list = await service.get(req.params.id)
-        res.send(list)
-    }
-    catch(error){
-        res.status(400).send(error)
-    }
-
-})
 
 
 router.post("/", async function(req,res){
@@ -41,16 +32,42 @@ router.post("/", async function(req,res){
     }
 })
 
-
-router.put("/:id", async function(req,res){
-    try{
-        let product = await service.update(req.params.id, req.body) //get gets it's id from path hence params
-    }catch (error){
-
-        res.status(400).send(error)
-
+// Handle GET request for a specific product by ID
+// Router configuration
+router.get("/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const product = await Product.findOne({ p_id: id });
+  
+      if (!product) {
+        res.status(404).json({ error: "Product not found" });
+      } else {
+        res.status(200).json(product);
+      }
+    } catch (error) {
+      res.status(500).send(error);
     }
-})
+  });
+  
+  router.put("/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const payload = req.body;
+  
+      // Find the product by ID and update it
+      const updatedProduct = await Product.findOneAndUpdate({ p_id: id }, payload, {
+        new: true, // Return the updated product
+      });
+  
+      if (!updatedProduct) {
+        res.status(404).json({ error: "Product not found" });
+      } else {
+        res.status(200).json(updatedProduct);
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
 
 router.delete("/:id", async function(req,res){
 
