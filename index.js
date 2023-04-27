@@ -11,17 +11,6 @@ app.use(cors()); // Enable CORS for all routes run
 const router = express.Router();
 
 
-
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://192.168.1.6:8080');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
-
-
 // Use body parser to parse incoming requests
 app.use(bodyParser.json());
 
@@ -60,8 +49,8 @@ app.post('/products', async (req, res) => {
   }
 });
 
-// Router configuration
-router.get("/:id", async (req, res) => {
+// Get product by ID
+app.get('/products/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const product = await Product.findOne({ p_id: id });
@@ -76,7 +65,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+// Update product by ID
+app.put('/products/:id', async (req, res) => {
   try {
     const id = req.params.id;
     const payload = req.body;
@@ -95,6 +85,7 @@ router.put("/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 
 // Start the server
 app.listen(3000, () => {
